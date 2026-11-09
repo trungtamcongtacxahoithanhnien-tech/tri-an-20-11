@@ -670,28 +670,43 @@ const MAX_SHOW=10;
 const FB_CONFIG={projectId:'tri-an-20-11',databaseURL:'https://tri-an-20-11-default-rtdb.asia-southeast1.firebasedatabase.app'};
 const ROOM_SIZE=11; // mỗi nhóm 11 người: thấy 10 bạn cùng nhóm
 function loadJS(u){return new Promise((ok,no)=>{const e=document.createElement('script');e.src=u;e.onload=ok;e.onerror=no;document.head.appendChild(e);});}
+const FB_CAP=90;   // tối đa ~90 người kết nối chơi chung (gói Spark: 100 kết nối)
 async function fbInit(){
   try{const V='10.12.5';await loadJS(`https://www.gstatic.com/firebasejs/${V}/firebase-app-compat.js`);await loadJS(`https://www.gstatic.com/firebasejs/${V}/firebase-database-compat.js`);}catch(e){return;}
   const fb=window.firebase;fb.initializeApp(FB_CONFIG);const db=fb.database(),inc=n=>fb.database.ServerValue.increment(n);
+  db.goOffline(); // chỉ kết nối khi đang trong ván
   const id=Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-4);
-  const map={};let room=null,me=null,rref=null,joining=null,online=false;
+  const map={};let room=null,me=null,rref=null,joining=null,online=false,reg=false,solo=false,live=false;
   const sync=()=>{NET.peers=Object.keys(map).filter(k=>k!==id).map(k=>({peer:k,kind:'viewer',presence:map[k]}));};
-  db.ref('occ').on('value',sn=>{const v=sn.val()||{};let t=0;for(const k in v)t+=Math.max(0,+v[k]||0);NET.total=t;lobbyUpdate();});
-  db.ref('.info/connected').on('value',sn=>{online=!!sn.val();if(online&&room){register();NET.sent='';}});
-  function register(){db.ref('occ/'+room).set(inc(1));db.ref('occ/'+room).onDisconnect().set(inc(-1));me.onDisconnect().remove();}
-  async function join(){
+  const sumOcc=v=>{let t=0;for(const k in (v||{}))t+=Math.max(0,+v[k]||0);return t;};
+  // đếm nhanh qua REST, không giữ kết nối
+  async function peek(){try{const v=await fetch(FB_CONFIG.databaseURL+'/occ.json',{cache:'no-store'}).then(r=>r.json());NET.total=sumOcc(v);lobbyUpdate();return NET.total;}catch(e){return null;}}
+  const onOcc=sn=>{NET.total=sumOcc(sn.val());lobbyUpdate();};
+  const onConn=sn=>{online=!!sn.val();if(!online){reg=false;return;}if(room&&!reg){register();NET.sent='';}};
+  function register(){reg=true;db.ref('occ/'+room).set(inc(1));db.ref('occ/'+room).onDisconnect().set(inc(-1));me.onDisconnect().remove();}
+  async function start(){
+    const tot=await peek();
+    if(tot===null||tot>=FB_CAP){solo=true;return;}   // quá đông: chơi một mình, không chiếm chỗ
+    db.goOnline();live=true;
+    db.ref('.info/connected').on('value',onConn);db.ref('occ').on('value',onOcc);
     const v=(await db.ref('occ').once('value')).val()||{};let best=null,bn=-1;
     for(const k in v){const n=+v[k]||0;if(n<ROOM_SIZE&&n>bn){best=k;bn=n;}}
-    room=best||('r'+Date.now().toString(36));me=db.ref(`r/${room}/${id}`);register();
+    room=best||('r'+Date.now().toString(36));me=db.ref(`r/${room}/${id}`);if(online&&!reg)register();
     rref=db.ref('r/'+room);
     rref.on('child_added',sn=>{map[sn.key]=sn.val();sync();});
     rref.on('child_changed',sn=>{map[sn.key]=sn.val();sync();});
     rref.on('child_removed',sn=>{delete map[sn.key];sync();});
   }
-  NET.fb={leave(){if(!room)return;rref.off();me.onDisconnect().cancel();me.remove();
-      db.ref('occ/'+room).onDisconnect().cancel();db.ref('occ/'+room).set(inc(-1));room=null;joining=null;for(const k in map)delete map[k];sync();}};
-  NET.room={presence(st){if(!room){if(!joining)joining=join().catch(()=>{joining=null;});return joining.then(()=>me&&me.set(st));}return me.set(st);}};
-  lobbyUpdate();
+  NET.fb={leave(){
+    if(room){rref.off();me.onDisconnect().cancel();me.remove();
+      db.ref('occ/'+room).onDisconnect().cancel();if(reg)db.ref('occ/'+room).set(inc(-1));}
+    if(live){db.ref('.info/connected').off('value',onConn);db.ref('occ').off('value',onOcc);setTimeout(()=>db.goOffline(),800);}
+    room=null;me=null;joining=null;reg=false;solo=false;live=false;for(const k in map)delete map[k];sync();}};
+  NET.room={presence(st){
+    if(solo)return Promise.resolve();
+    if(!room){if(!joining)joining=start().catch(()=>{solo=true;});return joining.then(()=>me&&me.set(st));}
+    return me.set(st);}};
+  peek();
 }
 const NET={room:null,peers:[],last:0,sent:'',g:{},show:[],count:0,total:0,fb:null};
 (async()=>{try{if(FB_CONFIG&&FB_CONFIG.databaseURL){fbInit();return;}if(!window.claude||!window.claude.use)return;const r=await window.claude.use('room');if(!r)return;NET.room=r;

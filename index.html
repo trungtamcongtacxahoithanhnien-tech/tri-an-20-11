@@ -676,7 +676,7 @@ async function fbInit(){
   const fb=window.firebase;fb.initializeApp(FB_CONFIG);const db=fb.database(),inc=n=>fb.database.ServerValue.increment(n);
   db.goOffline(); // chỉ kết nối khi đang trong ván
   const id=Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-4);
-  const map={};let room=null,me=null,rref=null,joining=null,online=false,reg=false,solo=false,live=false;
+  const map={};let room=null,me=null,rref=null,joining=null,online=false,reg=false,solo=false,live=false,paused=false;
   const sync=()=>{NET.peers=Object.keys(map).filter(k=>k!==id).map(k=>({peer:k,kind:'viewer',presence:map[k]}));};
   const sumOcc=v=>{let t=0;for(const k in (v||{}))t+=Math.max(0,+v[k]||0);return t;};
   // đếm nhanh qua REST, không giữ kết nối
@@ -701,7 +701,14 @@ async function fbInit(){
     if(room){rref.off();me.onDisconnect().cancel();me.remove();
       db.ref('occ/'+room).onDisconnect().cancel();if(reg)db.ref('occ/'+room).set(inc(-1));}
     if(live){db.ref('.info/connected').off('value',onConn);db.ref('occ').off('value',onOcc);setTimeout(()=>db.goOffline(),800);}
-    room=null;me=null;joining=null;reg=false;solo=false;live=false;for(const k in map)delete map[k];sync();}};
+    room=null;me=null;joining=null;reg=false;solo=false;live=false;paused=false;for(const k in map)delete map[k];sync();},
+    // rời trang / ẩn app: ngắt kết nối, máy chủ tự dọn nhân vật (onDisconnect)
+    pause(){if(live&&!paused){paused=true;db.goOffline();for(const k in map)delete map[k];sync();}},
+    resume(){if(live&&paused){paused=false;db.goOnline();}}};
+  let hideT=0;
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)hideT=setTimeout(()=>NET.fb.pause(),15000);else{clearTimeout(hideT);NET.fb.resume();}});
+  window.addEventListener('pagehide',()=>NET.fb.pause());
+  window.addEventListener('pageshow',e=>{if(e.persisted)NET.fb.resume();});
   NET.room={presence(st){
     if(solo)return Promise.resolve();
     if(!room){if(!joining)joining=start().catch(()=>{solo=true;});return joining.then(()=>me&&me.set(st));}

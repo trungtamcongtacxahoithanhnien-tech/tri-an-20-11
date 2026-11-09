@@ -457,25 +457,105 @@ const TEACHERS=[
 const N=TEACHERS.length;
 const QS={
   van:[{q:'“Truyện Kiều” là tác phẩm của tác giả nào?',a:['Nguyễn Du','Nguyễn Trãi','Hồ Xuân Hương','Nam Cao']},
-       {q:'Hoàn thành câu tục ngữ: “Không thầy đố mày …”',a:['làm nên','học giỏi','thành tài','nên người']}],
+       {q:'Hoàn thành câu tục ngữ: “Không thầy đố mày …”',a:['làm nên','học giỏi','thành tài','nên người']},
+       {q:'“Bình Ngô đại cáo” do ai soạn thảo?',a:['Nguyễn Trãi','Lý Thường Kiệt','Trần Hưng Đạo','Nguyễn Du']},
+       {q:'Truyện ngắn “Lão Hạc” là của nhà văn nào?',a:['Nam Cao','Ngô Tất Tố','Kim Lân','Tô Hoài']},
+       {q:'“Dế Mèn phiêu lưu ký” là tác phẩm của ai?',a:['Tô Hoài','Nam Cao','Nguyễn Nhật Ánh','Thạch Lam']},
+       {q:'“Muốn sang thì bắc cầu kiều, muốn con hay chữ thì yêu lấy …”',a:['thầy','cô','bạn','sách']},
+       {q:'“Nhất tự vi sư, bán tự vi sư” có nghĩa là gì?',a:['Một chữ, nửa chữ cũng là thầy','Học một biết mười','Thầy nào trò nấy','Học thầy không tày học bạn']},
+       {q:'“Truyện Kiều” được viết bằng thể thơ nào?',a:['Lục bát','Song thất lục bát','Thất ngôn bát cú','Thơ tự do']},
+       {q:'Tiểu thuyết “Tắt đèn” là của nhà văn nào?',a:['Ngô Tất Tố','Nam Cao','Vũ Trọng Phụng','Nguyễn Công Hoan']},
+       {q:'Bài thơ “Nam quốc sơn hà” tương truyền gắn với tên tuổi ai?',a:['Lý Thường Kiệt','Trần Hưng Đạo','Ngô Quyền','Lê Lợi']}],
   td:[{q:'Mỗi đội bóng đá có bao nhiêu cầu thủ trên sân?',a:['11','9','7','5']},
-      {q:'Môn thể thao nào được mệnh danh là “môn thể thao vua”?',a:['Bóng đá','Bóng rổ','Cầu lông','Bơi lội']}],
+      {q:'Môn thể thao nào được mệnh danh là “môn thể thao vua”?',a:['Bóng đá','Bóng rổ','Cầu lông','Bơi lội']},
+      {q:'Thế vận hội (Olympic) mùa hè được tổ chức mấy năm một lần?',a:['4 năm','2 năm','3 năm','5 năm']},
+      {q:'Lá cờ Olympic có bao nhiêu vòng tròn?',a:['5','4','6','7']},
+      {q:'Một trận bóng đá chính thức (chưa tính bù giờ) kéo dài bao nhiêu phút?',a:['90 phút','60 phút','80 phút','100 phút']},
+      {q:'Mỗi đội bóng chuyền trong nhà có bao nhiêu vận động viên trên sân?',a:['6','5','7','11']},
+      {q:'Cự li chạy marathon dài khoảng bao nhiêu?',a:['42,195 km','21 km','10 km','50 km']},
+      {q:'Theo luật hiện hành, một ván cầu lông kết thúc ở bao nhiêu điểm (khi không phải đấu thêm)?',a:['21','11','15','25']},
+      {q:'Vovinam còn được gọi là gì?',a:['Việt Võ Đạo','Karate','Taekwondo','Judo']},
+      {q:'Trước khi tập luyện thể thao, ta nên làm gì?',a:['Khởi động kỹ','Ăn thật no','Uống nước ngọt có ga','Ngủ một giấc']}],
   toan:[{q:'Tổng ba góc trong một tam giác bằng bao nhiêu độ?',a:['180°','90°','270°','360°']},
-        {q:'Số nguyên tố nhỏ nhất là số nào?',a:['2','1','0','3']}],
+        {q:'Số nguyên tố nhỏ nhất là số nào?',a:['2','1','0','3']},
+        {q:'Số π (pi) xấp xỉ bằng bao nhiêu?',a:['3,14','2,71','1,41','3,41']},
+        {q:'Công thức tính diện tích hình tròn bán kính r là gì?',a:['πr²','2πr','πr','2r²']},
+        {q:'Căn bậc hai số học của 144 là bao nhiêu?',a:['12','14','16','72']},
+        {q:'7 × 8 bằng bao nhiêu?',a:['56','54','63','48']},
+        {q:'Hình nào có 4 cạnh bằng nhau và 4 góc vuông?',a:['Hình vuông','Hình thoi','Hình chữ nhật','Hình thang']},
+        {q:'Trong tam giác vuông, cạnh đối diện với góc vuông gọi là gì?',a:['Cạnh huyền','Cạnh góc vuông','Đường cao','Đường trung tuyến']},
+        {q:'25% của 200 là bao nhiêu?',a:['50','25','75','40']},
+        {q:'2 mũ 10 (2¹⁰) bằng bao nhiêu?',a:['1024','1000','512','2048']}],
   anh:[{q:'Từ “teacher” trong tiếng Anh nghĩa là gì?',a:['Giáo viên','Học sinh','Trường học','Lớp học']},
-       {q:'“Ngày Nhà giáo” trong tiếng Anh là gì?',a:['Teachers’ Day','Children’s Day','Women’s Day','Labour Day']}],
+       {q:'“Ngày Nhà giáo” trong tiếng Anh là gì?',a:['Teachers’ Day','Children’s Day','Women’s Day','Labour Day']},
+       {q:'Dạng quá khứ của động từ “go” là gì?',a:['went','goed','gone','going']},
+       {q:'“Thank you” nghĩa là gì?',a:['Cảm ơn','Xin lỗi','Tạm biệt','Xin chào']},
+       {q:'Số nhiều của “child” là gì?',a:['children','childs','childes','childen']},
+       {q:'“Classroom” nghĩa là gì?',a:['Lớp học','Thư viện','Sân trường','Phòng thí nghiệm']},
+       {q:'Điền từ đúng: “She ___ a student.”',a:['is','are','am','be']},
+       {q:'Từ trái nghĩa với “difficult” là gì?',a:['easy','hard','heavy','busy']},
+       {q:'“Library” nghĩa là gì?',a:['Thư viện','Phòng thí nghiệm','Hiệu sách','Nhà ăn']},
+       {q:'“Thứ Hai” trong tiếng Anh là gì?',a:['Monday','Sunday','Tuesday','Friday']}],
   ly:[{q:'Đơn vị đo lực trong hệ SI là gì?',a:['Niutơn (N)','Jun (J)','Oát (W)','Mét (m)']},
-      {q:'Âm thanh không truyền được trong môi trường nào?',a:['Chân không','Nước','Không khí','Thép']}],
+      {q:'Âm thanh không truyền được trong môi trường nào?',a:['Chân không','Nước','Không khí','Thép']},
+      {q:'Đơn vị đo điện trở là gì?',a:['Ôm (Ω)','Vôn (V)','Ampe (A)','Oát (W)']},
+      {q:'Tốc độ ánh sáng trong chân không xấp xỉ bao nhiêu?',a:['300 000 km/s','300 km/s','3 000 km/s','30 000 km/s']},
+      {q:'Ai là người phát hiện ra định luật vạn vật hấp dẫn?',a:['Isaac Newton','Albert Einstein','Galileo Galilei','Ác-si-mét']},
+      {q:'Ở áp suất tiêu chuẩn, nước sôi ở bao nhiêu độ C?',a:['100 °C','90 °C','80 °C','120 °C']},
+      {q:'Dụng cụ nào dùng để đo cường độ dòng điện?',a:['Ampe kế','Vôn kế','Nhiệt kế','Lực kế']},
+      {q:'Đơn vị đo công suất là gì?',a:['Oát (W)','Jun (J)','Niutơn (N)','Paxcan (Pa)']},
+      {q:'Một thanh nam châm có mấy cực từ?',a:['2','1','3','4']},
+      {q:'Dụng cụ nào dùng để đo nhiệt độ?',a:['Nhiệt kế','Áp kế','Ampe kế','Tốc kế']}],
   hoa:[{q:'Công thức hóa học của nước là gì?',a:['H2O','CO2','O2','NaCl']},
-       {q:'Kí hiệu hóa học của nguyên tố sắt là gì?',a:['Fe','S','Si','Ag']}],
+       {q:'Kí hiệu hóa học của nguyên tố sắt là gì?',a:['Fe','S','Si','Ag']},
+       {q:'Kí hiệu hóa học của vàng là gì?',a:['Au','Ag','Ga','Go']},
+       {q:'Khí nào chiếm tỉ lệ lớn nhất trong không khí?',a:['Nitơ','Oxi','Cacbonic','Hiđro']},
+       {q:'Công thức hóa học của muối ăn là gì?',a:['NaCl','KCl','NaOH','HCl']},
+       {q:'Dung dịch axit làm quỳ tím chuyển sang màu gì?',a:['Đỏ','Xanh','Vàng','Không đổi màu']},
+       {q:'Nguyên tố nào có số hiệu nguyên tử bằng 1?',a:['Hiđro','Heli','Oxi','Cacbon']},
+       {q:'Dung dịch có pH = 7 có môi trường gì?',a:['Trung tính','Axit','Bazơ','Muối']},
+       {q:'Kim loại nào ở thể lỏng ở nhiệt độ thường?',a:['Thủy ngân','Chì','Nhôm','Đồng']},
+       {q:'Khí nào duy trì sự cháy?',a:['Oxi','Nitơ','Cacbonic','Heli']}],
   sinh:[{q:'Khi quang hợp, cây xanh hấp thụ khí nào?',a:['CO2','O2','N2','H2']},
-        {q:'Bộ phận nào của tế bào chứa vật chất di truyền?',a:['Nhân tế bào','Màng tế bào','Không bào','Thành tế bào']}],
+        {q:'Bộ phận nào của tế bào chứa vật chất di truyền?',a:['Nhân tế bào','Màng tế bào','Không bào','Thành tế bào']},
+        {q:'Cơ quan nào bơm máu đi khắp cơ thể?',a:['Tim','Phổi','Gan','Thận']},
+        {q:'Tế bào sinh dưỡng của người bình thường có bao nhiêu nhiễm sắc thể?',a:['46','23','44','48']},
+        {q:'Bào quan nào thực hiện quá trình quang hợp?',a:['Lục lạp','Ti thể','Ribôxôm','Nhân']},
+        {q:'Bào quan nào được ví là “nhà máy năng lượng” của tế bào?',a:['Ti thể','Lục lạp','Bộ máy Gôngi','Lưới nội chất']},
+        {q:'Cá voi thuộc lớp động vật nào?',a:['Thú','Cá','Bò sát','Lưỡng cư']},
+        {q:'Thành phần nào giúp máu vận chuyển oxi?',a:['Hồng cầu','Bạch cầu','Tiểu cầu','Huyết tương']},
+        {q:'Bộ xương người trưởng thành có khoảng bao nhiêu chiếc xương?',a:['206','106','306','186']},
+        {q:'Ai được coi là cha đẻ của di truyền học?',a:['Menđen','Đác-uyn','Pa-xtơ','Niutơn']}],
   su:[{q:'Ngày 20/11 chính thức mang tên “Ngày Nhà giáo Việt Nam” từ năm nào?',a:['1982','1958','1975','1990']},
-      {q:'Nhà giáo nào được tôn vinh là “Vạn thế sư biểu”?',a:['Chu Văn An','Lê Quý Đôn','Nguyễn Bỉnh Khiêm','Nguyễn Trãi']}],
+      {q:'Nhà giáo nào được tôn vinh là “Vạn thế sư biểu”?',a:['Chu Văn An','Lê Quý Đôn','Nguyễn Bỉnh Khiêm','Nguyễn Trãi']},
+      {q:'Chiến thắng Bạch Đằng năm 938 do ai lãnh đạo?',a:['Ngô Quyền','Trần Hưng Đạo','Lê Hoàn','Lý Thường Kiệt']},
+      {q:'Văn Miếu (Hà Nội) được xây dựng vào năm nào?',a:['1070','1010','1076','1428']},
+      {q:'Trường đại học đầu tiên của Việt Nam là trường nào?',a:['Quốc Tử Giám','Trường Bưởi','Đại học Đông Dương','Quốc học Huế']},
+      {q:'Chiến dịch Điện Biên Phủ toàn thắng vào năm nào?',a:['1954','1945','1975','1968']},
+      {q:'Đất nước Việt Nam thống nhất vào ngày 30/4 năm nào?',a:['1975','1954','1976','1945']},
+      {q:'Vua Lý Thái Tổ dời đô ra Thăng Long vào năm nào?',a:['1010','1009','1054','1070']},
+      {q:'Ai đọc bản Tuyên ngôn Độc lập ngày 2/9/1945?',a:['Chủ tịch Hồ Chí Minh','Võ Nguyên Giáp','Phạm Văn Đồng','Trường Chinh']},
+      {q:'“Ngày Quốc tế Hiến chương các nhà giáo” 20/11 được tổ chức lần đầu ở Việt Nam năm nào?',a:['1958','1982','1945','1966']}],
   dia:[{q:'Đỉnh núi cao nhất Việt Nam là đỉnh nào?',a:['Phan Xi Păng','Ngọc Linh','Bà Đen','Bạch Mã']},
-       {q:'Sông nào đổ ra biển qua nhiều cửa nên còn được gọi là sông Cửu Long?',a:['Sông Mê Kông','Sông Hồng','Sông Đà','Sông Sài Gòn']}],
+       {q:'Sông nào đổ ra biển qua nhiều cửa nên còn được gọi là sông Cửu Long?',a:['Sông Mê Kông','Sông Hồng','Sông Đà','Sông Sài Gòn']},
+       {q:'Vịnh Hạ Long thuộc tỉnh nào?',a:['Quảng Ninh','Hải Phòng','Ninh Bình','Thanh Hóa']},
+       {q:'Đại dương nào lớn nhất thế giới?',a:['Thái Bình Dương','Đại Tây Dương','Ấn Độ Dương','Bắc Băng Dương']},
+       {q:'Hang động tự nhiên lớn nhất thế giới nằm ở Việt Nam có tên là gì?',a:['Sơn Đoòng','Phong Nha','Thiên Đường','Hương Tích']},
+       {q:'Châu lục nào có diện tích lớn nhất?',a:['Châu Á','Châu Phi','Châu Mỹ','Châu Âu']},
+       {q:'Quần đảo Trường Sa thuộc tỉnh nào của Việt Nam?',a:['Khánh Hòa','Đà Nẵng','Quảng Ngãi','Bình Định']},
+       {q:'Đường Xích đạo chia Trái Đất thành hai nửa nào?',a:['Bán cầu Bắc và bán cầu Nam','Bán cầu Đông và bán cầu Tây','Lục địa và đại dương','Ngày và đêm']},
+       {q:'Thành phố nào đông dân nhất Việt Nam?',a:['TP. Hồ Chí Minh','Hà Nội','Đà Nẵng','Cần Thơ']},
+       {q:'Việt Nam nằm trên bán đảo nào?',a:['Đông Dương','Mã Lai','Triều Tiên','Ả Rập']}],
   tin:[{q:'Tổ hợp phím Ctrl + C dùng để làm gì?',a:['Sao chép','Dán','Cắt','Hoàn tác']},
-       {q:'1 byte bằng bao nhiêu bit?',a:['8','2','10','16']}]
+       {q:'1 byte bằng bao nhiêu bit?',a:['8','2','10','16']},
+       {q:'Tổ hợp phím Ctrl + V dùng để làm gì?',a:['Dán','Sao chép','Lưu','In']},
+       {q:'CPU là bộ phận nào của máy tính?',a:['Bộ xử lý trung tâm','Bộ nhớ trong','Ổ cứng','Màn hình']},
+       {q:'Trong sách giáo khoa Tin học, 1 KB bằng bao nhiêu byte?',a:['1024','1000','100','512']},
+       {q:'Thiết bị nào là thiết bị vào (nhập dữ liệu)?',a:['Bàn phím','Màn hình','Loa','Máy in']},
+       {q:'Phần mềm nào là trình duyệt web?',a:['Google Chrome','Microsoft Word','Microsoft Excel','Paint']},
+       {q:'Tổ hợp phím Ctrl + Z dùng để làm gì?',a:['Hoàn tác','Làm lại','Phóng to','Đóng cửa sổ']},
+       {q:'Hệ nhị phân sử dụng những chữ số nào?',a:['0 và 1','1 và 2','0 đến 9','0 đến 7']},
+       {q:'“WWW” là viết tắt của cụm từ nào?',a:['World Wide Web','World Web Wide','Wide World Web','Web World Wide']}]
 };
 
 /* ---------- bản đồ: nền, bục đứng, chướng ngại ---------- */
@@ -585,15 +665,44 @@ function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.to
 
 /* ---------- chơi chung: thấy những người đang chơi cùng lúc ---------- */
 const MAX_SHOW=10;
-const NET={room:null,peers:[],last:0,sent:'',g:{},show:[],count:0};
-(async()=>{try{if(!window.claude||!window.claude.use)return;const r=await window.claude.use('room');if(!r)return;NET.room=r;
+/* ---------- chơi chung qua Firebase Realtime Database (khi tự host) ---------- */
+// Dán cấu hình Firebase vào đây (Project settings > Your apps > SDK setup and configuration > Config)
+const FB_CONFIG={projectId:'tri-an-20-11',databaseURL:'https://tri-an-20-11-default-rtdb.asia-southeast1.firebasedatabase.app'};
+const ROOM_SIZE=11; // mỗi nhóm 11 người: thấy 10 bạn cùng nhóm
+function loadJS(u){return new Promise((ok,no)=>{const e=document.createElement('script');e.src=u;e.onload=ok;e.onerror=no;document.head.appendChild(e);});}
+async function fbInit(){
+  try{const V='10.12.5';await loadJS(`https://www.gstatic.com/firebasejs/${V}/firebase-app-compat.js`);await loadJS(`https://www.gstatic.com/firebasejs/${V}/firebase-database-compat.js`);}catch(e){return;}
+  const fb=window.firebase;fb.initializeApp(FB_CONFIG);const db=fb.database(),inc=n=>fb.database.ServerValue.increment(n);
+  const id=Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-4);
+  const map={};let room=null,me=null,rref=null,joining=null,online=false;
+  const sync=()=>{NET.peers=Object.keys(map).filter(k=>k!==id).map(k=>({peer:k,kind:'viewer',presence:map[k]}));};
+  db.ref('occ').on('value',sn=>{const v=sn.val()||{};let t=0;for(const k in v)t+=Math.max(0,+v[k]||0);NET.total=t;lobbyUpdate();});
+  db.ref('.info/connected').on('value',sn=>{online=!!sn.val();if(online&&room){register();NET.sent='';}});
+  function register(){db.ref('occ/'+room).set(inc(1));db.ref('occ/'+room).onDisconnect().set(inc(-1));me.onDisconnect().remove();}
+  async function join(){
+    const v=(await db.ref('occ').once('value')).val()||{};let best=null,bn=-1;
+    for(const k in v){const n=+v[k]||0;if(n<ROOM_SIZE&&n>bn){best=k;bn=n;}}
+    room=best||('r'+Date.now().toString(36));me=db.ref(`r/${room}/${id}`);register();
+    rref=db.ref('r/'+room);
+    rref.on('child_added',sn=>{map[sn.key]=sn.val();sync();});
+    rref.on('child_changed',sn=>{map[sn.key]=sn.val();sync();});
+    rref.on('child_removed',sn=>{delete map[sn.key];sync();});
+  }
+  NET.fb={leave(){if(!room)return;rref.off();me.onDisconnect().cancel();me.remove();
+      db.ref('occ/'+room).onDisconnect().cancel();db.ref('occ/'+room).set(inc(-1));room=null;joining=null;for(const k in map)delete map[k];sync();}};
+  NET.room={presence(st){if(!room){if(!joining)joining=join().catch(()=>{joining=null;});return joining.then(()=>me&&me.set(st));}return me.set(st);}};
+  lobbyUpdate();
+}
+const NET={room:null,peers:[],last:0,sent:'',g:{},show:[],count:0,total:0,fb:null};
+(async()=>{try{if(FB_CONFIG&&FB_CONFIG.databaseURL){fbInit();return;}if(!window.claude||!window.claude.use)return;const r=await window.claude.use('room');if(!r)return;NET.room=r;
   r.onPeers(ch=>{NET.peers=ch.peers;lobbyUpdate();},()=>{NET.room=null;NET.peers=[];lobbyUpdate();});}catch(e){}})();
 function playingPeers(){const out=[];for(const pr of NET.peers){if(pr.sameTab||pr.kind!=='viewer')continue;const s=pr.presence||{};if(s.g!==1||typeof s.x!=='number'||typeof s.y!=='number')continue;out.push(pr);}return out;}
-function lobbyUpdate(){const el=$('#lobby');if(!el)return;const n=playingPeers().length;el.textContent=NET.room&&n?`Đang có ${n} người khác chơi, vào chơi cùng nhé!`:'';}
+function lobbyUpdate(){const el=$('#lobby');if(!el)return;const n=NET.fb?NET.total:playingPeers().length;el.textContent=NET.room&&n?`Đang có ${n} người khác chơi, vào chơi cùng nhé!`:'';}
 function netSend(st){if(!NET.room)return;const js=JSON.stringify(st);if(js===NET.sent)return;NET.sent=js;NET.room.presence(st).catch(()=>{});}
 function netTick(now,dt){
   if(!NET.room){NET.show=[];NET.count=0;return;}
-  if(S&&S.running&&now-NET.last>100){NET.last=now;const p=S.p;netSend({g:1,n:S.name.slice(0,20),c:charSel,x:Math.round(p.x),y:Math.round(p.y),f:p.face<0?-1:1,m:Math.abs(p.vx)>1?1:0,j:p.onGround?0:1,d:S.given});}
+  if(NET.fb&&!(S&&S.running)&&NET.sent){NET.fb.leave();NET.sent='';}
+  if(S&&S.running&&now-NET.last>(NET.fb?220:100)){NET.last=now;const p=S.p;netSend({g:1,n:S.name.slice(0,20),c:charSel,x:Math.round(p.x),y:Math.round(p.y),f:p.face<0?-1:1,m:Math.abs(p.vx)>1?1:0,j:p.onGround?0:1,d:S.given});}
   const list=playingPeers(),seen={};
   for(const pr of list){const s=pr.presence,id=pr.peer;seen[id]=1;let g=NET.g[id];
     const tx=Math.max(0,Math.min(WORLD,s.x)),ty=Math.max(0,Math.min(GROUND,s.y));
@@ -604,9 +713,9 @@ function netTick(now,dt){
   const me=S?S.p.x:0;gs.sort((a,b)=>Math.abs(a.x-me)-Math.abs(b.x-me));
   NET.show=gs.slice(0,MAX_SHOW);NET.count=gs.length;
 }
-function peopleHud(){const el=$('#hPeople');if(!NET.room||!NET.count){if(!el.hidden)el.hidden=true;return;}
-  const extra=NET.count-NET.show.length,t=`👥 ${NET.count+1} người đang chơi`+(extra>0?`|+${extra} bạn khác đang chơi cùng`:'');
-  if(el.dataset.t!==t){el.dataset.t=t;el.innerHTML='';const a=document.createElement('span');a.textContent=`👥 ${NET.count+1} người đang chơi`;el.appendChild(a);if(extra>0){const b=document.createElement('small');b.textContent=`+${extra} bạn khác đang chơi cùng`;el.appendChild(b);}}
+function peopleHud(){const el=$('#hPeople');const tot=NET.fb?Math.max(NET.total-1,NET.count):NET.count;if(!NET.room||!tot){if(!el.hidden)el.hidden=true;return;}
+  const extra=tot-NET.show.length,t=`👥 ${tot+1} người đang chơi`+(extra>0?`|+${extra} bạn khác đang chơi cùng`:'');
+  if(el.dataset.t!==t){el.dataset.t=t;el.innerHTML='';const a=document.createElement('span');a.textContent=`👥 ${tot+1} người đang chơi`;el.appendChild(a);if(extra>0){const b=document.createElement('small');b.textContent=`+${extra} bạn khác đang chơi cùng`;el.appendChild(b);}}
   el.hidden=false;}
 
 /* ---------- game core ---------- */
@@ -642,7 +751,7 @@ $('#startBtn').onclick=async()=>{
      p:{x:60,y:GROUND,vx:0,vy:0,face:1,onGround:true,coyote:0,jbuf:0,dropT:0,fall:0,anim:0,knock:0,kvx:0,onEl:false,pushing:false}};
   ARCS.forEach(a=>a.armed=true);AMB.forEach(a=>{a.x0=a.x0??a.x;a.x=a.x0;a.dir=1;a.sayT=2+Math.random()*6;a.say='';a.kickT=0;});
   $('#tempt').hidden=true;$('#phone').hidden=true;invUpdate();$('#hintBox').hidden=true;$('#bTalkL').textContent='Tặng quà';
-  TEACHERS.forEach(t=>{t.done=false;t.lock=0;t.qi=Math.random()<.5?0:1;if(t.x0==null)t.x0=t.x;t.x=t.x0;t.vx=0;t.wait=.5+Math.random()*2;t.wdir=Math.random()<.5?-1:1;t.wa=0;});
+  TEACHERS.forEach(t=>{t.done=false;t.lock=0;t.ord=shuffle(QS[t.id].map((_,i)=>i));t.qi=0;if(t.x0==null)t.x0=t.x;t.x=t.x0;t.vx=0;t.wait=.5+Math.random()*2;t.wdir=Math.random()<.5?-1:1;t.wa=0;});
   show('game');const portrait=layout();
   const rot=$('#rot');rot.hidden=!portrait;rot.style.opacity='1';if(portrait)setTimeout(()=>rot.style.opacity='0',5000);
   if(document.fonts)await Promise.race([document.fonts.load('16px VT323'),new Promise(r=>setTimeout(r,1500))]);
@@ -966,7 +1075,7 @@ const dlg=$('#dlg'),dpor=$('#dPor'),dpx=dpor.getContext('2d');
 function openDlg(t){
   S.dialog=t;inp.left=inp.right=inp.down=false;inp.jump=false;
   document.querySelectorAll('.cb').forEach(b=>b.classList.remove('on'));
-  const q=QS[t.id][t.qi],xung=t.name.startsWith('Cô')?'cô':'thầy';
+  const q=QS[t.id][t.ord[t.qi%t.ord.length]],xung=t.name.startsWith('Cô')?'cô':'thầy';
   dpx.clearRect(0,0,120,128);R(dpx,0,0,120,96,'#9fd6f7');R(dpx,0,40,120,4,'#b8e2fa');R(dpx,0,96,120,32,'#5cb84a');R(dpx,0,96,120,3,'#8ad86a');A(dpx,t.a,60,122,112/ATL_POS[t.a][3],false);
   $('#dName').textContent=t.name;$('#dSub').textContent='Giáo viên môn '+t.sub;
   $('#dLine').textContent=`“Quà tặng ${xung} à? Em trả lời giúp ${xung} câu ${t.sub} này nhé!”`;
@@ -988,7 +1097,7 @@ function endDlg(ok,xung){
     if(!S.running)return;
     dlg.hidden=true;S.dialog=null;
     if(ok){t.done=true;S.given++;hearts(t.x,t.y);toast(`Đã tặng quà cho ${t.name}!`);if(S.given===N)setTimeout(()=>finish(true),900);}
-    else{t.lock=performance.now()+LOCK_MS;t.qi=(t.qi+1)%QS[t.id].length;toast(`${t.name} sẽ chờ bạn sau 1 phút`);}
+    else{t.lock=performance.now()+LOCK_MS;t.qi++;toast(`${t.name} sẽ chờ bạn sau 1 phút`);}
   },1400);
 }
 $('#dLater').onclick=()=>{if(!S||!S.dialog)return;dlg.hidden=true;S.dialog=null;};

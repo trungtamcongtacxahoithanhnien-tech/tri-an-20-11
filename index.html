@@ -95,6 +95,13 @@ input::placeholder{color:var(--muted);opacity:.8}
 #aud{position:absolute;right:8px;top:calc(18px + max(110px,calc(var(--u,2)*100px)) * .11);display:flex;gap:6px}
 #hPeople{right:8px;left:auto;top:calc(22px + 1.5em + max(110px,calc(var(--u,2)*100px)) * .11);flex-direction:column;align-items:flex-end;gap:0;font-size:max(15px,calc(var(--u,2)*7px));padding:2px 8px}
 #hPeople small{color:#ffd23f;font-size:.9em}
+#hRank{right:8px;left:auto;top:calc(22px + 1.5em + max(110px,calc(var(--u,2)*100px)) * .11 + 3.2em);flex-direction:column;align-items:stretch;gap:2px;font-size:max(13px,calc(var(--u,2)*6px));padding:3px 7px;min-width:10em;color:#f6eedc}
+#hRank h4{margin:0 0 2px;font-size:1em;font-weight:normal;color:#ffd23f;text-align:center}
+#hRank div{display:grid;grid-template-columns:5.5em 4em 2.4em;gap:5px;align-items:center}#hRank em{text-align:right}
+#hRank div span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#hRank i{display:block;height:.45em;background:#2a2e66;border:1px solid #5a5f9a}#hRank i b{display:block;height:100%;background:#ff6fa3}
+#hRank em{font-style:normal;font-size:.9em}#hRank .me i b{background:#5ccf8a}
+#hRank .me{color:#7fe0a8}#hRank .gap{display:block;text-align:center;opacity:.7}
 .lobby{text-align:center;color:var(--pink);font-size:21px;margin:-4px 0 12px;min-height:22px}
 .ab{pointer-events:auto;font-size:max(15px,calc(var(--u,2)*7px));background:rgba(20,22,48,.88);color:#fff;border:2px solid #f5e6b8;box-shadow:0 0 0 2px #1a1423;padding:0 7px;cursor:pointer;line-height:1.25}
 .ab[aria-pressed="false"]{opacity:.55;text-decoration:line-through}
@@ -180,6 +187,11 @@ input::placeholder{color:var(--muted);opacity:.8}
 .opts .oc.mine{cursor:pointer;background:#fff6dc;outline:3px solid var(--pink);outline-offset:-3px}.opts .oc.pk{background:#ffb3cf}.opts .oc.hi{background:#ffd23f}
 .chInfo{font-weight:bold}
 @media (max-height:540px) and (min-width:600px){.chBig{font-size:30px;margin:0 0 4px}.opts .chW,.opts .chCard{font-size:19px;padding:2px 8px}.opts .chCard{min-height:40px}.oaq{grid-template-rows:36px 36px}.chLine{font-size:20px;min-height:28px}.opts .chGo{font-size:24px;padding:3px 30px}.chTrack{height:24px;margin:4px 0 8px}}
+/* hộp thoại thầy cô: màu cố định, không đổi theo giao diện sáng/tối của máy */
+#dlg{--panel:#fff6dc;--field:#ffffff;--ink:#1f1a3a;--muted:#5a4f63;--frame:#1f1a3a;--rim:#e9a83a;--pink:#c2255c;--green:#2f9e5e;--red:#c93b3b;color-scheme:light}
+#dlg .dbox{color:var(--ink)}
+#dlg .opts button{color:var(--ink)}#dlg .opts button.ok,#dlg .opts button.no,#dlg .opts .chW.ok,#dlg .opts .chW.no,#dlg .opts .chCard.ok,#dlg .opts .chGo{color:#fff}
+#dlg .opts .chCard{background:#1f1a3a;color:#fff6dc}#dlg .opts .chCard.up{background:#ffffff;color:var(--ink)}#dlg .opts .chCard.ok{background:var(--green)}
 .later{display:block;margin:4px 0 0 auto;background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:20px;padding:4px}
 @media (max-width:560px){.dbox{grid-template-columns:1fr;gap:8px}.por canvas{width:72px;height:77px}.por{display:flex;justify-content:center}.opts{grid-template-columns:1fr}}
 #conf{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;image-rendering:pixelated}
@@ -260,6 +272,7 @@ input::placeholder{color:var(--muted);opacity:.8}
       <div class="hb" id="hInv" hidden></div>
       <canvas id="mini" width="200" height="22" aria-hidden="true"></canvas>
       <div class="hb" id="hPeople" hidden></div>
+      <div class="hb" id="hRank" hidden></div>
       <div id="aud"><button class="ab" id="bMus" aria-pressed="true">♫ Nhạc</button><button class="ab" id="bSfx" aria-pressed="true">Âm thanh</button></div>
       <div id="hintBox" hidden></div>
       <div id="phone" hidden role="alertdialog" aria-labelledby="phT"><div class="phHead"><span class="phApp">Game Vui 24h</span><span>vừa xong</span></div><div id="phT"></div><div class="phBtns"><button id="phGo" class="phGo">Vào game</button><button id="phNo" class="phNo">Tắt</button></div></div>
@@ -816,18 +829,30 @@ function netSend(st){if(!NET.room)return;const js=JSON.stringify(st);if(js===NET
 function netTick(now,dt){
   if(!NET.room){NET.show=[];NET.count=0;return;}
   if(NET.fb&&!(S&&S.running)&&NET.sent){NET.fb.leave();NET.sent='';}
-  if(S&&S.running&&now-NET.last>(NET.fb?220:100)){NET.last=now;const p=S.p;netSend({g:1,n:S.name.slice(0,20),c:charSel,x:Math.round(p.x),y:Math.round(p.y),f:p.face<0?-1:1,m:Math.abs(p.vx)>1?1:0,j:p.onGround?0:1,d:S.given});}
+  if(S&&S.running&&now-NET.last>(NET.fb?220:100)){NET.last=now;const p=S.p;netSend({g:1,n:S.name.slice(0,20),c:charSel,x:Math.round(p.x),y:Math.round(p.y),f:p.face<0?-1:1,m:Math.abs(p.vx)>1?1:0,j:p.onGround?0:1,d:S.given,k:S.lastGift||0});}
   const list=playingPeers(),seen={};
   for(const pr of list){const s=pr.presence,id=pr.peer;seen[id]=1;let g=NET.g[id];
     const tx=Math.max(0,Math.min(WORLD,s.x)),ty=Math.max(0,Math.min(GROUND,s.y));
     if(!g)g=NET.g[id]={x:tx,y:ty};
-    g.tx=tx;g.ty=ty;g.n=String(s.n||'Bạn').slice(0,20);g.c=CHARS[s.c]?s.c:'boy';g.f=s.f<0?-1:1;g.m=s.m?1:0;g.j=s.j?1:0;g.d=Math.max(0,Math.min(N,+s.d||0));}
+    g.tx=tx;g.ty=ty;g.k=Math.max(0,+s.k||0);g.n=String(s.n||'Bạn').slice(0,20);g.c=CHARS[s.c]?s.c:'boy';g.f=s.f<0?-1:1;g.m=s.m?1:0;g.j=s.j?1:0;g.d=Math.max(0,Math.min(N,+s.d||0));}
   for(const id in NET.g)if(!seen[id])delete NET.g[id];
   const gs=Object.values(NET.g);for(const g of gs){const k=Math.min(1,dt*10);g.x+=(g.tx-g.x)*k;g.y+=(g.ty-g.y)*k;}
   const me=S?S.p.x:0;gs.sort((a,b)=>Math.abs(a.x-me)-Math.abs(b.x-me));
   NET.show=gs.slice(0,MAX_SHOW);NET.count=gs.length;
 }
-function peopleHud(){const el=$('#hPeople');const tot=NET.fb?Math.max(NET.total-1,NET.count):NET.count;if(!NET.room||!tot){if(!el.hidden)el.hidden=true;return;}
+function rankHud(){const el=$('#hRank');const peers=Object.values(NET.g);
+  if(!NET.room||!peers.length||!S||!S.running){if(!el.hidden)el.hidden=true;return;}
+  const rows=peers.map(g=>({n:g.n,d:g.d,k:g.k||0,me:false}));rows.push({n:'Bạn',d:S.given,k:S.lastGift||0,me:true});
+  rows.sort((a,b)=>b.d-a.d||a.k-b.k);
+  let show=rows.slice(0,6);if(!show.some(r=>r.me))show=rows.slice(0,5).concat(rows.filter(r=>r.me));
+  const key=show.map(r=>`${r.n}${r.d}${r.me}`).join('|');if(el.dataset.k===key){el.hidden=false;return;}el.dataset.k=key;
+  el.innerHTML='';el.appendChild(Object.assign(document.createElement('h4'),{textContent:'Đang chơi cùng'}));
+  for(const r of show){const d=document.createElement('div');if(r.me)d.className='me';
+    const a=document.createElement('span'),bar=document.createElement('i'),fill=document.createElement('b'),c=document.createElement('em');
+    a.textContent=r.n;fill.style.width=(r.d/N*100)+'%';bar.appendChild(fill);c.textContent=`${r.d}/${N}`;d.append(a,bar,c);el.appendChild(d);}
+  if(rows.length>show.length){const m=document.createElement('div');m.className='gap';m.textContent=`+${rows.length-show.length} bạn khác`;el.appendChild(m);}
+  el.hidden=false;}
+function peopleHud(){rankHud();const el=$('#hPeople');const tot=NET.fb?Math.max(NET.total-1,NET.count):NET.count;if(!NET.room||!tot){if(!el.hidden)el.hidden=true;return;}
   const extra=tot-NET.show.length,t=`👥 ${tot+1} người đang chơi`+(extra>0?`|+${extra} bạn khác đang chơi cùng`:'');
   if(el.dataset.t!==t){el.dataset.t=t;el.innerHTML='';const a=document.createElement('span');a.textContent=`👥 ${tot+1} người đang chơi`;el.appendChild(a);if(extra>0){const b=document.createElement('small');b.textContent=`+${extra} bạn khác đang chơi cùng`;el.appendChild(b);}}
   el.hidden=false;}
@@ -1350,7 +1375,7 @@ function endDlg(ok,xung){
   setTimeout(()=>{
     if(!S.running)return;
     dlg.hidden=true;S.dialog=null;
-    if(ok){t.done=true;S.given++;hearts(t.x,t.y);toast(`Đã tặng quà cho ${t.name}!`);if(S.given===N)setTimeout(()=>finish(true),900);}
+    if(ok){t.done=true;S.given++;S.lastGift=Math.round((performance.now()-S.start)/1000);hearts(t.x,t.y);toast(`Đã tặng quà cho ${t.name}!`);if(S.given===N)setTimeout(()=>finish(true),900);}
     else if(S.skip>0){S.skip--;t.qi++;invUpdate();toast('Dùng Thẻ Miễn chờ: bạn được thử lại ngay!');}
     else{t.lock=performance.now()+LOCK_MS;t.qi++;toast(`${t.name} sẽ chờ bạn sau 1 phút`);}
   },1400);

@@ -1037,14 +1037,14 @@ function update(dt,now){
   if(p.onGround&&dir&&Math.random()<dt*6)dust(p.x-dir*4,p.y,1);
   if(p.pushing){S.pushSnd-=dt;if(S.pushSnd<=0){sfx('push');S.pushSnd=.24;}}
   // bóng lăn ở sân thể dục
-  S.ballT-=dt;if(S.ballT<=0){S.ballT=1.7+Math.random()*1.6;S.balls.push({x:FIELD2-50,vx:-(62+Math.random()*34),ph:0,h:0});const k=AMB.find(a=>a.kicker);if(k)k.kickT=.3;}
+  S.ballT-=dt;if(S.ballT<=0){S.ballT=1.1+Math.random()*1.0;S.balls.push({x:FIELD2-50,vx:-(84+Math.random()*40),ph:0,h:0});const k=AMB.find(a=>a.kicker);if(k)k.kickT=.3;}
   for(const b of S.balls){
     b.x+=b.vx*dt;b.ph+=dt*7;b.h=Math.abs(Math.sin(b.ph))*9;
     const c=S.crate;
     if(b.x>c.x&&b.x<c.x+c.w+3){b.dead=1;poof(b.x,GROUND-6);if(canPlace(c,c.x-5))c.x-=5;continue;}
     if(b.x<FIELD1){b.dead=1;continue;}
     if(p.knock<=0&&Math.abs(b.x-p.x)<6&&p.y>GROUND-8-b.h&&p.y-36<GROUND-b.h){
-      b.dead=1;p.knock=.4;p.kvx=Math.sign(b.vx)*70;p.vy=-140;p.onGround=false;p.onEl=false;sfx('hit');toast('Ui da! Coi chừng bóng lăn!');}
+      b.dead=1;p.knock=.45;p.kvx=Math.sign(b.vx)*105;p.vy=-165;p.onGround=false;p.onEl=false;sfx('hit');toast('Ui da! Coi chừng bóng lăn!');}
   }
   S.balls=S.balls.filter(b=>!b.dead);
   // máy game: lại gần là bị rủ rê

@@ -138,6 +138,8 @@ input::placeholder{color:var(--muted);opacity:.8}
 #mini{position:absolute;right:8px;top:8px;width:max(110px,calc(var(--u,2)*100px));height:auto;aspect-ratio:200/22;image-rendering:pixelated;border:2px solid #f5e6b8;box-shadow:0 0 0 2px #1a1423}
 #toast{position:absolute;left:50%;top:22%;transform:translate(-50%,-6px);opacity:0;transition:opacity .2s,transform .2s;background:rgba(20,22,48,.92);border:2px solid #f5e6b8;color:#fff;padding:4px 12px;font-size:max(18px,calc(var(--u,2)*8px));max-width:90%;text-align:center}
 #toast.show{opacity:1;transform:translate(-50%,0)}
+#game.forceLand{position:fixed;inset:auto;left:0;top:0;transform-origin:0 0;transform:rotate(90deg) translateY(-100%)}
+#bRot{background:#c93b3b}
 #rot{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);background:rgba(20,22,48,.9);color:#fff;padding:3px 10px;font-size:18px;white-space:nowrap;transition:opacity .5s}
 #ctl{position:absolute;left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;align-items:flex-end;padding:0 14px;pointer-events:none}
 .cl,.cr{display:flex;gap:12px;align-items:flex-end}
@@ -213,7 +215,7 @@ html,body,button,#dlg,#dlg *{touch-action:manipulation}
 @keyframes up{from{transform:translateY(40px)}to{transform:translateY(-40px);opacity:0}}
 @media (max-height:540px) and (min-width:600px){.chMaze{max-height:30vh;width:auto}.chMaze.chFish{max-height:44vh}.chPic img{width:52px;height:52px}.chName{font-size:20px}.pond{height:90px}}
 .later{display:block;margin:4px 0 0 auto;background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:20px;padding:4px}
-@media (max-width:560px){.dbox{grid-template-columns:1fr;gap:8px}.por canvas{width:72px;height:77px}.por{display:flex;justify-content:center}.opts{grid-template-columns:1fr}}
+@media (max-width:560px){#game:not(.forceLand) .dbox{grid-template-columns:1fr;gap:8px}#game:not(.forceLand) .por canvas{width:72px;height:77px}#game:not(.forceLand) .por{display:flex;justify-content:center}#game:not(.forceLand) .opts{grid-template-columns:1fr}}
 #conf{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;image-rendering:pixelated}
 .ebox{position:relative;width:100%;max-width:470px;max-height:100%;overflow:auto;padding:18px 18px 14px;text-align:center}
 .ebox .logo{width:64px;height:64px;border-radius:50%;display:block;margin:0;box-shadow:0 0 0 4px #fff,0 0 0 7px var(--frame)}
@@ -234,6 +236,12 @@ html,body,button,#dlg,#dlg *{touch-action:manipulation}
   .ebox .big{font-size:23px;padding:6px 12px}
   .dbox{padding:10px;gap:12px}.por canvas{width:84px;height:90px}.dName{font-size:26px}.dSub,.dLine{font-size:18px}.dQuote{font-size:15px;margin:3px 0 0;padding:2px 6px}.dLine{margin:4px 0 0}.dQ{font-size:22px;margin:2px 0 8px}.opts button{font-size:20px;padding:3px 8px}.opts{gap:6px}.fb{margin-top:6px;min-height:22px;font-size:20px}.later{font-size:18px;padding:0 4px}
 }
+
+/* chế độ xoay ngang giả (forceLand) dùng lại bố cục màn ngang thấp */
+#game.forceLand .chBig{font-size:30px;margin:0 0 4px}#game.forceLand .opts .chW,#game.forceLand .opts .chCard{font-size:19px;padding:2px 8px}#game.forceLand .opts .chCard{min-height:40px}#game.forceLand .oaq{grid-template-rows:36px 36px}#game.forceLand .chLine{font-size:20px;min-height:28px}#game.forceLand .opts .chGo{font-size:24px;padding:3px 30px}#game.forceLand .chTrack{height:24px;margin:4px 0 8px}
+#game.forceLand .chMaze{max-height:30vw;width:auto}#game.forceLand .chMaze.chFish{max-height:44vw}#game.forceLand .chPic img{width:52px;height:52px}#game.forceLand .chName{font-size:20px}#game.forceLand .pond{height:90px}
+#game.forceLand .ebox{max-width:760px;display:grid;grid-template-columns:220px 1fr;column-gap:18px;text-align:left;align-items:center;padding:14px 18px}#game.forceLand .ebox #eSubmit{font-size:19px;padding:6px 10px;margin-top:4px}#game.forceLand .ebox .shotNote{font-size:14px;margin-top:4px}#game.forceLand .ebox #eMsg{margin:4px 0}#game.forceLand .ebox .thanks{margin:4px 0;font-size:15px}#game.forceLand .ebox .logos{grid-row:1 / span 7;gap:10px}#game.forceLand .ebox .logo{width:56px;height:56px}#game.forceLand .ebox .nescBadge{padding:6px 10px}#game.forceLand .ebox .nescBadge img{height:22px}#game.forceLand .ebox h2{font-size:28px;margin:0 0 4px}#game.forceLand .ebox p{font-size:19px;margin:3px 0}#game.forceLand .estats{justify-content:flex-start;margin:6px 0}#game.forceLand .estats b{font-size:28px}#game.forceLand .estats div{min-width:110px;padding:2px 10px}#game.forceLand .ebox .big{font-size:23px;padding:6px 12px}#game.forceLand .dbox{padding:10px;gap:12px}#game.forceLand .por canvas{width:84px;height:90px}#game.forceLand .dName{font-size:26px}#game.forceLand .dSub,#game.forceLand .dLine{font-size:18px}#game.forceLand .dQuote{font-size:15px;margin:3px 0 0;padding:2px 6px}#game.forceLand .dLine{margin:4px 0 0}#game.forceLand .dQ{font-size:22px;margin:2px 0 8px}#game.forceLand .opts button{font-size:20px;padding:3px 8px}#game.forceLand .opts{gap:6px}#game.forceLand .fb{margin-top:6px;min-height:22px;font-size:20px}#game.forceLand .later{font-size:18px;padding:0 4px}
+
 </style>
 </head>
 <body>
@@ -280,7 +288,7 @@ html,body,button,#dlg,#dlg *{touch-action:manipulation}
     </ul>
     <div class="lobby" id="lobby"></div>
     <button class="big" id="startBtn">Bắt đầu</button>
-    <p id="verTag" style="margin:6px 0 0;font-size:11px;opacity:.55;text-align:center">Phiên bản 32</p>
+    <p id="verTag" style="margin:6px 0 0;font-size:11px;opacity:.55;text-align:center">Phiên bản 33</p>
   </div></div>
 </section>
 
@@ -294,12 +302,12 @@ html,body,button,#dlg,#dlg *{touch-action:manipulation}
       <canvas id="mini" width="200" height="22" aria-hidden="true"></canvas>
       <div class="hb" id="hPeople" hidden></div>
       <div class="hb" id="hRank" hidden></div>
-      <div id="aud"><button class="ab" id="bMus" aria-pressed="true">♫ Nhạc</button><button class="ab" id="bSfx" aria-pressed="true">Âm thanh</button></div>
+      <div id="aud"><button class="ab" id="bRot" hidden>⟲ Xoay ngang</button><button class="ab" id="bMus" aria-pressed="true">♫ Nhạc</button><button class="ab" id="bSfx" aria-pressed="true">Âm thanh</button></div>
       <div id="hintBox" hidden></div>
       <div id="phone" hidden role="alertdialog" aria-labelledby="phT"><div class="phHead"><span class="phApp">Game Vui 24h</span><span>vừa xong</span></div><div id="phT"></div><div class="phBtns"><button id="phGo" class="phGo">Vào game</button><button id="phNo" class="phNo">Tắt</button></div></div>
       <div id="tempt" hidden><div class="tbox" role="dialog" aria-modal="true" aria-labelledby="tmTitle"><div class="tmMarq" id="tmTitle">MÁY GAME SIÊU HOT</div><div class="tmScreen" id="tmScreen"></div><p id="tmLine"></p><div id="tmBtns"><button id="tmGo" class="tmGo">CHƠI 1 VÁN!</button><button id="tmNo" class="tmNo">Không, mình đi tặng quà</button></div></div></div>
       <div id="toast" role="status" aria-live="polite"></div>
-      <div id="rot" hidden>Xoay ngang để chơi rõ hơn</div>
+      <div id="rot" hidden>Bấm “⟲ Xoay ngang” để chơi rõ hơn</div>
     </div>
   </div>
   <div id="ctl">
@@ -920,7 +928,30 @@ function layout(){
   const dpr=window.devicePixelRatio||1;cv.width=Math.round(cw*dpr);cv.height=Math.round(ch*dpr);K=cv.width/VW;
   return portrait;
 }
-window.addEventListener('resize',()=>{if(S)layout();});
+let FORCE=false,NATLOCK=false;
+const isTouch=()=>!matchMedia('(hover:hover) and (pointer:fine)').matches;
+function applyForce(){const g=$('#game');
+  if(FORCE&&innerWidth>innerHeight)FORCE=false;           // đã xoay máy thật → bỏ xoay giả
+  g.classList.toggle('forceLand',FORCE);
+  if(FORCE){g.style.width=innerHeight+'px';g.style.height=innerWidth+'px';}else{g.style.width='';g.style.height='';}
+}
+function relayout(){applyForce();if(!S)return;const portrait=layout();
+  const br=$('#bRot');br.hidden=!isTouch()||!(portrait||FORCE||NATLOCK);br.textContent=(FORCE||NATLOCK)?'⟲ Xoay dọc':'⟲ Xoay ngang';
+  const rot=$('#rot');if(!portrait)rot.hidden=true;}
+let _rlT=[];function relayoutSoon(){_rlT.forEach(clearTimeout);relayout();_rlT=[60,200,450,900].map(d=>setTimeout(relayout,d));}
+window.addEventListener('resize',relayoutSoon);
+window.addEventListener('orientationchange',relayoutSoon);
+if(window.visualViewport)visualViewport.addEventListener('resize',relayoutSoon);
+$('#bRot').addEventListener('click',async()=>{
+  if(FORCE||NATLOCK){
+    if(NATLOCK){try{screen.orientation.unlock();}catch(e){}try{if(document.fullscreenElement)await document.exitFullscreen();}catch(e){}NATLOCK=false;}
+    FORCE=false;relayoutSoon();return;}
+  try{const el=document.documentElement;if(!document.fullscreenElement&&el.requestFullscreen)await el.requestFullscreen({navigationUI:'hide'});
+    await screen.orientation.lock('landscape');NATLOCK=true;
+    await new Promise(r=>setTimeout(r,800));if(innerWidth<=innerHeight){try{screen.orientation.unlock();}catch(_){}try{if(document.fullscreenElement)await document.exitFullscreen();}catch(_){}NATLOCK=false;FORCE=true;}}
+  catch(e){NATLOCK=false;try{if(document.fullscreenElement)await document.exitFullscreen();}catch(_){}FORCE=true;}
+  relayoutSoon();});
+document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&NATLOCK){NATLOCK=false;relayoutSoon();}});
 
 $('#startBtn').onclick=async()=>{
   auInit();
@@ -936,7 +967,7 @@ $('#startBtn').onclick=async()=>{
   ARCS.forEach(a=>a.armed=true);{const SP=[[220,GROUND],[1470,GROUND],[1700,GROUND],[2150,GROUND],[2560,GROUND],[2820,GROUND],[3250,GROUND],[3800,GROUND],[4040,CATY],[4330,GROUND]];const c=SP[Math.floor(Math.random()*SP.length)];CAT.x=CAT.x0=c[0];CAT.y=c[1];CAT.dir=Math.random()<.5?-1:1;CAT.wait=0;CAT.range=c[1]===CATY?50:60;}AMB.forEach(a=>{a.x0=a.x0??a.x;a.x=a.x0;a.dir=1;a.sayT=2+Math.random()*6;a.say='';a.kickT=0;});
   $('#tempt').hidden=true;$('#phone').hidden=true;invUpdate();$('#hintBox').hidden=true;$('#bTalkL').textContent='Tặng quà';
   TEACHERS.forEach(t=>{t.done=false;t.lock=0;t.ord=shuffle(QS[t.id].map((_,i)=>i));t.qi=0;if(t.x0==null)t.x0=t.x;t.x=t.x0;t.vx=0;t.wait=.5+Math.random()*2;t.wdir=Math.random()<.5?-1:1;t.wa=0;});
-  show('game');const portrait=layout();
+  show('game');applyForce();const portrait=layout();relayout();
   const rot=$('#rot');rot.hidden=!portrait;rot.style.opacity='1';if(portrait)setTimeout(()=>rot.style.opacity='0',5000);
   if(document.fonts)await Promise.race([document.fonts.load('16px VT323'),new Promise(r=>setTimeout(r,1500))]);
   S.start=performance.now();last=S.start;requestAnimationFrame(loop);musicOn();
@@ -1371,7 +1402,7 @@ const CH={
     const pad=el('div','chPad');[['▲',0,-1],['◀',-1,0],['▼',0,1],['▶',1,0]].forEach(([s2,dx,dy])=>{const b=el('button','chW',s2);b.addEventListener('pointerdown',e=>{e.preventDefault();mv(dx,dy);});pad.appendChild(b);});box.appendChild(pad);
     const kd=e=>{const m={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],KeyW:[0,-1],KeyS:[0,1],KeyA:[-1,0],KeyD:[1,0]}[e.code];if(m){e.preventDefault();mv(...m);}};
     document.addEventListener('keydown',kd);let sx=0,sy=0;
-    cv.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;});cv.addEventListener('pointerup',e=>{const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.max(Math.abs(dx),Math.abs(dy))<14)return;if(Math.abs(dx)>Math.abs(dy))mv(Math.sign(dx),0);else mv(0,Math.sign(dy));});
+    cv.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;});cv.addEventListener('pointerup',e=>{let dx=e.clientX-sx,dy=e.clientY-sy;if(FORCE){const t=dx;dx=dy;dy=-t;}if(Math.max(Math.abs(dx),Math.abs(dy))<14)return;if(Math.abs(dx)>Math.abs(dy))mv(Math.sign(dx),0);else mv(0,Math.sign(dy));});
     const st2=chTimer(box,35,()=>chDone(false,xung));CHSTOP=()=>{st2();document.removeEventListener('keydown',kd);};
   },
   // Lịch sử: ô ăn quan mini
@@ -1457,7 +1488,7 @@ Object.assign(CH,{
         g.strokeStyle=on.has(x+','+y)?'#ff9a1a':'#3a3f4a';g.lineWidth=7;g.lineCap='round';g.beginPath();for(const d of ports(c)){g.moveTo(X+C/2,Y+C/2);g.lineTo(X+C/2+D[d][0]*C/2,Y+C/2+D[d][1]*C/2);}g.stroke();}
       return ok;};
     drawC();
-    cv.addEventListener('click',e=>{if(box.dataset.done)return;const r=cv.getBoundingClientRect(),sx=cv.width/r.width;const x=Math.floor(((e.clientX-r.left)*sx-30)/C),y=Math.floor(((e.clientY-r.top)*sx-4)/C);if(x<0||y<0||x>=W||y>=H)return;grid[y][x].r=(grid[y][x].r+1)%4;sfx('click');if(drawC())setTimeout(()=>chDone(true,xung),500);});
+    cv.addEventListener('click',e=>{if(box.dataset.done)return;const sx=cv.width/cv.clientWidth;const x=Math.floor((e.offsetX*sx-30)/C),y=Math.floor((e.offsetY*sx-4)/C);if(x<0||y<0||x>=W||y>=H)return;grid[y][x].r=(grid[y][x].r+1)%4;sfx('click');if(drawC())setTimeout(()=>chDone(true,xung),500);});
     CHSTOP=chTimer(box,40,()=>chDone(false,xung));
   },
   // Địa lý: xếp từ Bắc vào Nam

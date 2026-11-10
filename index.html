@@ -140,8 +140,10 @@ input::placeholder{color:var(--muted);opacity:.8}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 #game.forceLand{position:fixed;inset:auto;left:0;top:0;transform-origin:0 0;transform:rotate(90deg) translateY(-100%)}
 #bRot{background:#c93b3b}
+#bBike{background:#2f6fd0}#bBike.far{opacity:.6}
 .kbHint{display:none;margin:6px 0 0;font-size:15px;color:var(--muted)}
 @media (hover:hover) and (pointer:fine){.kbHint{display:block}}
+#devMark{position:fixed;right:6px;bottom:3px;z-index:9999;font-size:12px;line-height:1;color:#fff;opacity:.55;text-shadow:0 0 2px #000,0 0 2px #000;pointer-events:none;user-select:none;letter-spacing:.5px}
 #rot{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);background:rgba(20,22,48,.9);color:#fff;padding:3px 10px;font-size:18px;white-space:nowrap;transition:opacity .5s}
 #ctl{position:absolute;left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;align-items:flex-end;padding:0 14px;pointer-events:none}
 .cl,.cr{display:flex;gap:12px;align-items:flex-end}
@@ -248,6 +250,7 @@ html,body,button,#dlg,#dlg *{touch-action:manipulation}
 </head>
 <body>
 
+<div id="devMark" aria-hidden="true">dev by YNQ - YSSC</div>
 <section id="gate" class="screen active" aria-label="Theo dõi fanpage">
   <div class="scroll"><div class="wrap">
     <div class="brand"><div class="brandLogos"><img class="logo" alt="Logo Trung tâm Công tác Xã hội Thanh niên TP.HCM"><span class="nescBadge"><img class="nesc" alt="NESCAFÉ"></span></div></div>
@@ -290,7 +293,7 @@ html,body,button,#dlg,#dlg *{touch-action:manipulation}
     </ul>
     <div class="lobby" id="lobby"></div>
     <button class="big" id="startBtn">Bắt đầu</button>
-    <p id="verTag" style="margin:6px 0 0;font-size:11px;opacity:.55;text-align:center">Phiên bản 38</p>
+    <p id="verTag" style="margin:6px 0 0;font-size:11px;opacity:.55;text-align:center">Phiên bản 41</p>
   </div></div>
 </section>
 
@@ -304,7 +307,7 @@ html,body,button,#dlg,#dlg *{touch-action:manipulation}
       <canvas id="mini" width="200" height="22" aria-hidden="true"></canvas>
       <div class="hb" id="hPeople" hidden></div>
       <div class="hb" id="hRank" hidden></div>
-      <div id="aud"><button class="ab" id="bRot" hidden>⟲ Xoay ngang</button><button class="ab" id="bMus" aria-pressed="true">♫ Nhạc</button><button class="ab" id="bSfx" aria-pressed="true">Âm thanh</button></div>
+      <div id="aud"><button class="ab" id="bBike" hidden>Xuống xe</button><button class="ab" id="bRot" hidden>⟲ Xoay ngang</button><button class="ab" id="bMus" aria-pressed="true">♫ Nhạc</button><button class="ab" id="bSfx" aria-pressed="true">Âm thanh</button></div>
       <div id="hintBox" hidden></div>
       <div id="phone" hidden role="alertdialog" aria-labelledby="phT"><div class="phHead"><span class="phApp">Game Vui 24h</span><span>vừa xong</span></div><div id="phT"></div><div class="phBtns"><button id="phGo" class="phGo">Vào game</button><button id="phNo" class="phNo">Tắt</button></div></div>
       <div id="tempt" hidden><div class="tbox" role="dialog" aria-modal="true" aria-labelledby="tmTitle"><div class="tmMarq" id="tmTitle">MÁY GAME SIÊU HOT</div><div class="tmScreen" id="tmScreen"></div><p id="tmLine"></p><div id="tmBtns"><button id="tmGo" class="tmGo">CHƠI 1 VÁN!</button><button id="tmNo" class="tmNo">Không, mình đi tặng quà</button></div></div></div>
@@ -949,6 +952,7 @@ let _rlT=[];function relayoutSoon(){_rlT.forEach(clearTimeout);relayout();_rlT=[
 window.addEventListener('resize',relayoutSoon);
 window.addEventListener('orientationchange',relayoutSoon);
 if(window.visualViewport)visualViewport.addEventListener('resize',relayoutSoon);
+$('#bBike').addEventListener('click',()=>{toggleBike();});
 $('#bRot').addEventListener('click',async()=>{
   if(FORCE||NATLOCK){
     if(NATLOCK){try{screen.orientation.unlock();}catch(e){}try{if(document.fullscreenElement)await document.exitFullscreen();}catch(e){}NATLOCK=false;}
@@ -971,7 +975,7 @@ $('#startBtn').onclick=async()=>{
      got:{},pieces:0,card:false,miniDone:{},bonus:0,cut:0,skip:0,fastT:0,cat:false,catDone:false,quests:0,tempt:null,phone:false,phoneT:9e9,lost:0,birds:[],birdT:2,
      key:false,ladder:false,libOpen:false,knocking:false,power:false,crate:{x:800,y:123,w:26,h:27},el:{y:EL.bot,dir:-1,wait:1},balls:[],ballT:1.5,pushSnd:0,bl:'',
      p:{x:60,y:GROUND,vx:0,vy:0,face:1,onGround:true,coyote:0,jbuf:0,dropT:0,fall:0,anim:0,knock:0,kvx:0,onEl:false,pushing:false}};
-  S.bike=false;S.pg=PG_SPOTS.map((x,i)=>({x0:x,x,y:GROUND,d:i%2?-1:1,st:'peck',t:Math.random()*2,ph:Math.random()*6,vx:0,vy:0,walk:0}));
+  S.bike=false;S.hasBike=false;S.bikeAt=null;$('#bBike').hidden=true;S.pg=PG_SPOTS.map((x,i)=>({x0:x,x,y:GROUND,d:i%2?-1:1,st:'peck',t:Math.random()*2,ph:Math.random()*6,vx:0,vy:0,walk:0}));
   ARCS.forEach(a=>a.armed=true);{const SP=[[220,GROUND],[1470,GROUND],[1700,GROUND],[2150,GROUND],[2560,GROUND],[2820,GROUND],[3250,GROUND],[3800,GROUND],[4040,CATY],[4330,GROUND]];const c=SP[Math.floor(Math.random()*SP.length)];CAT.x=CAT.x0=c[0];CAT.y=c[1];CAT.dir=Math.random()<.5?-1:1;CAT.wait=0;CAT.range=c[1]===CATY?50:60;}AMB.forEach(a=>{a.x0=a.x0??a.x;a.x=a.x0;a.dir=1;a.sayT=2+Math.random()*6;a.say='';a.kickT=0;});
   $('#tempt').hidden=true;$('#phone').hidden=true;invUpdate();$('#hintBox').hidden=true;$('#bTalkL').textContent='Tặng quà';
   TEACHERS.forEach(t=>{t.done=false;t.lock=0;t.ord=shuffle(QS[t.id].map((_,i)=>i));t.qi=0;if(t.x0==null)t.x0=t.x;t.x=t.x0;t.vx=0;t.wait=.5+Math.random()*2;t.wdir=Math.random()<.5?-1:1;t.wa=0;});
@@ -988,10 +992,18 @@ function press(k,on){
   if(k==='jump'){if(on&&!inp.jump)S.p.jbuf=.13;inp.jump=on;}
   else if(k==='talk'){if(on)interact();}
   else if(k==='mute'){if(on)setMus(!AU.mus);}
+  else if(k==='bike'){if(on)toggleBike();}
   else inp[k]=on;
 }
-const KEYS={KeyM:'mute',ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowUp:'jump',KeyW:'jump',Space:'jump',ArrowDown:'down',KeyS:'down',KeyE:'talk',KeyB:'talk',KeyX:'talk',Enter:'talk'};
-window.addEventListener('keydown',e=>{if(!$('#game').classList.contains('active')||!S||S.dialog||S.tempt||!S.running)return;const k=KEYS[e.code];if(!k)return;e.preventDefault();if(e.repeat&&(k==='jump'||k==='talk'))return;press(k,true);});
+function nearBike(){const p=S.p,b=S.bikeAt;return b&&Math.abs(p.x-b.x)<24&&Math.abs(p.y-b.y)<8;}
+function bikeBtn(){const b=$('#bBike');b.hidden=!S.hasBike;b.textContent=S.bike?'Xuống xe':'Lên xe';b.classList.toggle('far',!S.bike&&!nearBike());}
+function toggleBike(){if(!S||!S.hasBike||S.dialog||S.tempt)return;const p=S.p;
+  if(S.bike){if(!p.onGround){sfx('nope');return;}S.bike=false;S.bikeAt={x:p.x,y:p.y,f:p.face};sfx('click');toast('Đã dựng xe ở đây. Quay lại gần xe bấm “Lên xe” (phím R) để đạp tiếp.');}
+  else if(nearBike()){S.bike=true;S.bikeAt=null;sfx('pick');toast('Lên xe! Đạp nhanh hơn rồi.');}
+  else{sfx('nope');toast('Xe đạp đang dựng ở chỗ bạn xuống xe. Quay lại đó để lên nhé.');}
+  bikeBtn();invUpdate();}
+const KEYS={KeyM:'mute',KeyR:'bike',ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowUp:'jump',KeyW:'jump',Space:'jump',ArrowDown:'down',KeyS:'down',KeyE:'talk',KeyB:'talk',KeyX:'talk',Enter:'talk'};
+window.addEventListener('keydown',e=>{if(!$('#game').classList.contains('active')||!S||S.dialog||S.tempt||!S.running)return;const k=KEYS[e.code];if(!k)return;e.preventDefault();if(e.repeat&&(k==='jump'||k==='talk'||k==='bike'))return;press(k,true);});
 window.addEventListener('keyup',e=>{const k=KEYS[e.code];if(k&&k!=='talk'&&S)press(k,false);});
 document.querySelectorAll('.cb').forEach(b=>{
   const k=b.dataset.k;
@@ -1014,6 +1026,7 @@ function interact(){
     if(t.lock>now){sfx('nope');toast(`${t.name} đang bận, quay lại sau ${fmt((t.lock-now)/1000)}`);return;}
     openDlg(t);return;
   }
+  if(!S.bike&&nearBike()&&!S.near){toggleBike();return;}
   const I=S.inter;
   if(!I){sfx('nope');toast('Hãy đến gần thầy cô hoặc đồ vật để tương tác');return;}
   if(I.id==='fish'||I.id==='hoop'||I.id==='mc'){openMini(I.id);return;}
@@ -1051,7 +1064,7 @@ function invUpdate(){
   const el=$('#hInv');el.innerHTML='';const rows=[];
   if(S.pieces&&!S.key&&!S.ladder)rows.push(['kpiece',`Mảnh chìa khóa ${S.pieces}/3`]);
   if(S.key)rows.push(['key','Chìa khóa thang sắt']);
-  if(S.bike)rows.push(['bike','Xe đạp: đi nhanh hơn']);
+  if(S.hasBike)rows.push(['bike',S.bike?'Xe đạp (R: xuống xe)':'Xe đạp đang dựng (R: lên xe)']);
   if(S.card)rows.push(['card2','Thẻ thư viện']);
   if(S.cat)rows.push(['cat','Mèo cam (mang về cô y tế)']);
   if(S.skip)rows.push(['skip',`Thẻ Miễn chờ ×${S.skip}`]);
@@ -1184,6 +1197,7 @@ function update(dt,now){
   let lbl='Tặng quà',ready=false;
   if(S.near)ready=!S.near.done&&S.near.lock<=now;
   else if(S.inter){lbl=S.inter.label;ready=!((S.inter.id==='lock'&&S.ladder)||(S.inter.id==='door'&&(S.libOpen||S.knocking))||(S.inter.id==='power'&&S.power)||(S.inter.id==='nurse'&&!S.cat));}
+  if(!S.near&&!S.bike&&S.bikeAt){const nb=nearBike();if(nb&&!S.inter){lbl='Lên xe';ready=true;}if(nb!==S.nbk){S.nbk=nb;bikeBtn();}}
   S.ready=!!ready;if(lbl!==S.bl){S.bl=lbl;$('#bTalkL').textContent=lbl;}
   $('#bTalk').classList.toggle('ready',!!ready);
   // hạt
@@ -1265,6 +1279,7 @@ function draw(now){
   // player
   const fr=MYFR();let k=fr[0],pb=0;
   if(!p.onGround)k=fr[2];else if(Math.abs(p.vx)>1)k=fr[1+Math.floor(p.anim*8)%3];else pb=(Math.floor(now/450)%2)?-.5:0;
+  if(S.bikeAt){const X=S.bikeAt.x-cam;if(X>-30&&X<VW+30){R(ctx,X-14,S.bikeAt.y-1,28,1,'rgba(0,0,0,.18)');A(ctx,'g_bike',X,S.bikeAt.y+.5,.52,S.bikeAt.f>0);}}
   const RF=S.bike?rideFrames(LOOK):null;
   if(S.bike&&!RF){pb=-9;if(p.onGround&&Math.abs(p.vx)<=1)k=fr[0];}
   if(RF){k=(p.onGround&&Math.abs(p.vx)>1)?RF[Math.floor(p.anim*5)%2]:RF[0];pb=0;}
@@ -1619,7 +1634,7 @@ function openMini(k){const m=MINIS[k];S.dialog={mini:k};inp.left=inp.right=inp.d
   stopCh();const fb=$('#dFb');fb.textContent='';fb.className='fb';$('#dLater').hidden=false;const bx=$('#dOpts');bx.innerHTML='';bx.className='opts ch';bx.dataset.done='';__kbReset();dlg.hidden=false;sfx('talk');CH[k](null,'bạn',bx);}
 function endMini(ok){const k=S.dialog.mini,fb=$('#dFb');$('#dLater').hidden=true;fb.className='fb '+(ok?'ok':'no');
   const BN=MINIS[k].bonus||20,first=ok&&!S.miniDone[k];fb.textContent=ok?(first?(k==='mc'?`Thắng rồi! MC tặng bạn +${BN} giây và một chiếc xe đạp!`:`Thắng rồi! Bạn được thưởng +${BN} giây.`):'Thắng rồi! (phần thưởng chỉ nhận 1 lần)'):'Tiếc quá! Thử lại lúc nào cũng được nhé.';
-  setTimeout(()=>{if(!S.running)return;dlg.hidden=true;S.dialog=null;if(first){S.miniDone[k]=1;S.bonus+=BN;S.cut+=10;if(k==='mc'){S.quests++;S.bike=true;sfx('unlock');invUpdate();toast(`+${BN} giây và xe đạp! Giờ bạn đi nhanh hơn rồi.`);}else toast(`+${BN} giây vào thời gian chơi!`);}},1400);}
+  setTimeout(()=>{if(!S.running)return;dlg.hidden=true;S.dialog=null;if(first){S.miniDone[k]=1;S.bonus+=BN;S.cut+=10;if(k==='mc'){S.quests++;S.bike=true;S.hasBike=true;S.bikeAt=null;bikeBtn();sfx('unlock');invUpdate();toast(`+${BN} giây và xe đạp! Giờ bạn đi nhanh hơn rồi.`);}else toast(`+${BN} giây vào thời gian chơi!`);}},1400);}
 
 /* ---------- dialogue ---------- */
 const dlg=$('#dlg'),dpor=$('#dPor'),dpx=dpor.getContext('2d');

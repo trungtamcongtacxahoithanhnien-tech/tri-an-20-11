@@ -6,9 +6,9 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Hành trình Tri ân 20/11</title>
+<title>Sắc màu Tri ân 20/11</title>
 <meta name="description" content="Minigame tri ân thầy cô nhân Ngày Nhà giáo Việt Nam 20/11 – Trung tâm Công tác Xã hội Thanh niên TP.HCM.">
-<meta property="og:title" content="Hành trình Tri ân 20/11">
+<meta property="og:title" content="Sắc màu Tri ân 20/11">
 <meta property="og:description" content="Vào vai học sinh, mang quà đi tri ân 10 thầy cô trong 15 phút. Chơi ngay trên điện thoại!">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -254,7 +254,7 @@ html,body,button,#dlg,#dlg *{touch-action:manipulation}
 <section id="gate" class="screen active" aria-label="Theo dõi fanpage">
   <div class="scroll"><div class="wrap">
     <div class="brand"><div class="brandLogos"><img class="logo" alt="Logo Trung tâm Công tác Xã hội Thanh niên TP.HCM"><span class="nescBadge"><img class="nesc" alt="NESCAFÉ"></span></div></div>
-    <h1>Hành trình Tri ân</h1>
+    <h1>Sắc màu Tri ân</h1>
     <p class="sub">Mừng Ngày Nhà giáo Việt Nam 20/11</p>
     <div class="card px gateCard">
       <p class="gateT">Trước khi vào game, bạn ghé <b>theo dõi fanpage</b> của Trung tâm để cập nhật kết quả và thông tin trao quà nhé!</p>
@@ -268,7 +268,7 @@ html,body,button,#dlg,#dlg *{touch-action:manipulation}
 <section id="setup" class="screen" aria-label="Tạo nhân vật">
   <div class="scroll"><div class="wrap">
     <div class="brand"><div class="brandLogos"><img class="logo" alt="Logo Trung tâm Công tác Xã hội Thanh niên TP.HCM"><span class="nescBadge"><img class="nesc" alt="NESCAFÉ"></span></div></div>
-    <h1>Hành trình Tri ân</h1>
+    <h1>Sắc màu Tri ân</h1>
     <p class="sub">Mừng Ngày Nhà giáo Việt Nam 20/11</p>
     <p class="story">Bạn mang theo 10 hộp cà phê NESCAFÉ Signature làm quà, đang đứng trước cổng trường. Hãy đi khắp trường: sân trường, dãy lớp học, thư viện, phòng máy, căng tin, nhà đa năng, hồ sen và nhà xe để trao từng phần quà đến các thầy cô.</p>
     <div class="card px">
@@ -293,7 +293,7 @@ html,body,button,#dlg,#dlg *{touch-action:manipulation}
     </ul>
     <div class="lobby" id="lobby"></div>
     <button class="big" id="startBtn">Bắt đầu</button>
-    <p id="verTag" style="margin:6px 0 0;font-size:11px;opacity:.55;text-align:center">Phiên bản 42</p>
+    <p id="verTag" style="margin:6px 0 0;font-size:11px;opacity:.55;text-align:center">Phiên bản 43</p>
   </div></div>
 </section>
 
@@ -372,7 +372,14 @@ const NESC='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAU8AAABaCAYAAAA4odRuAA
   let followed=false;try{followed=localStorage.getItem('yssc_fb')==='1';}catch(e){}
   const done=()=>{fb.textContent='✓ Đã theo dõi fanpage';fb.classList.add('gateDone');};
   if(followed){go.disabled=false;done();note.textContent='Bạn đã theo dõi fanpage rồi. Cảm ơn bạn!';}
-  fb.addEventListener('click',()=>{setTimeout(()=>{go.disabled=false;done();note.textContent='Cảm ơn bạn! Giờ bấm “Vào chơi” nhé.';},1500);});
+  /* Trình duyệt trong ứng dụng (Facebook, Messenger, Instagram, Zalo…) không mở được tab mới (target=_blank) → mở fanpage ngay trong tab này; bấm Quay lại để về game */
+  const IAB=/FBAN|FBAV|FB_IAB|FBIOS|FB4A|Messenger|Instagram|Zalo|Line\//i.test(navigator.userAgent||'');
+  if(IAB){fb.removeAttribute('target');go.disabled=false;
+    if(!followed)note.textContent='Bạn đang mở game trong ứng dụng Facebook/Zalo. Nếu đã theo dõi fanpage, bấm “Vào chơi” luôn. Bấm “Mở fanpage” xong thì bấm nút Quay lại (←) để về game.';}
+  fb.addEventListener('click',()=>{try{localStorage.setItem('yssc_fb','1');}catch(e){}
+    setTimeout(()=>{go.disabled=false;done();note.textContent='Cảm ơn bạn! Giờ bấm “Vào chơi” nhé.';},IAB?0:1500);});
+  window.addEventListener('pageshow',()=>{let f=false;try{f=localStorage.getItem('yssc_fb')==='1';}catch(e){}
+    if(f){go.disabled=false;done();note.textContent='Cảm ơn bạn! Giờ bấm “Vào chơi” nhé.';}});
   go.addEventListener('click',()=>{try{localStorage.setItem('yssc_fb','1');}catch(e){}
     document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id==='setup'));});
 })();
@@ -1708,7 +1715,7 @@ function finish(all){
   $('#tempt').hidden=true;$('#phone').hidden=true;S.tempt=null;
   $('#eMsg').textContent=(all?`Bạn đã trao trọn ${N} phần quà tri ân đến các thầy cô.`:`Hết giờ rồi! Bạn đã tặng được ${S.given}/${N} phần quà.`)+(S.lost?` Bạn đã để cám dỗ lấy mất ${S.lost} giây.`:' Bạn đã vượt qua mọi cám dỗ, tuyệt vời!')+(S.quests?` Nhiệm vụ ẩn: ${S.quests}/4, được thưởng −${S.cut} giây khi xếp hạng.`:'');
   $('#eFl').textContent=`${S.given}/${N}`;$('#eTm').textContent=S.result.time;
-  $('#eThanks').textContent=`Cảm ơn ${S.name} đã tham gia Hành trình Tri ân cùng Trung tâm Công tác Xã hội Thanh niên TP.HCM.`;
+  $('#eThanks').textContent=`Cảm ơn ${S.name} đã tham gia Sắc màu Tri ân cùng Trung tâm Công tác Xã hội Thanh niên TP.HCM.`;
   $('#eSubmit').hidden=false;$('#eSent').hidden=true;$('#eAgain').hidden=true;
   endPop.hidden=false;$('#eSubmit').focus({preventScroll:true});confetti();musicOff();sfx(all?'win':'timeup');
 }

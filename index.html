@@ -288,7 +288,7 @@ html,body,button,#dlg,#dlg *{touch-action:manipulation}
     </ul>
     <div class="lobby" id="lobby"></div>
     <button class="big" id="startBtn">Bắt đầu</button>
-    <p id="verTag" style="margin:6px 0 0;font-size:11px;opacity:.55;text-align:center">Phiên bản 33</p>
+    <p id="verTag" style="margin:6px 0 0;font-size:11px;opacity:.55;text-align:center">Phiên bản 35</p>
   </div></div>
 </section>
 
@@ -675,10 +675,10 @@ const BRIDGES=[3420,3720];
 BRIDGES.forEach(c=>{for(let x=c-32;x<c+32;x+=4){const u=(x+2-c)/32;PLATS.push({x1:x,x2:x+4,y:Math.round(127+19*u*u),br:1});}});
 const WATER1=3398,WATER2=3744,GATE_SY=90;
 const BALCS=[[986,1150],[1246,1412],[1578,1787]];
-const SOLIDS=[{x:227,y:116,w:18,h:34},{x:1627,y:116,w:18,h:34},{x:700,y:138,w:4,h:12},{x:752,y:138,w:4,h:12},{x:1060,y:82,w:22,h:18},{x:1314,y:79,w:12,h:21},{x:1411,y:38,w:6,h:62}];
+const SOLIDS=[{x:227,y:116,w:18,h:34},{x:1627,y:116,w:18,h:34},{x:700,y:138,w:4,h:12},{x:752,y:138,w:4,h:12},{x:1060,y:82,w:22,h:18},{x:1314,y:79,w:12,h:21},{x:1411,y:38,w:6,h:62,ow:-1}];   // ow:-1 = chỉ chặn khi đi sang trái (từ ngoài vào), đi ra thì qua được
 const RUNGS=[{x1:1256,x2:1276,y:136},{x1:1256,x2:1276,y:122},{x1:1256,x2:1276,y:108}];
 const EL={x1:1582,x2:1610,top:100,bot:148,spd:34};
-const PUSH=30,FIELD1=652,FIELD2=932,LADX=1256,POWX=1775,CATX=4060,CATY=84,DARK={x:1810,y:44,w:192,h:106};const CAT={x:CATX,y:CATY,x0:CATX,dir:1,wait:0,range:50,mv:0};
+const CRATE_MAXR=990;const PUSH=30,FIELD1=652,FIELD2=932,LADX=1256,POWX=1775,CATX=4060,CATY=84,DARK={x:1810,y:44,w:192,h:106};const CAT={x:CATX,y:CATY,x0:CATX,dir:1,wait:0,range:50,mv:0};
 const ARCS=[{x:236},{x:1636}];
 const INTER=[
   {id:'kp1',x:561,y:76,r:12,ty:50,label:'Nhặt',pick:1},
@@ -1067,7 +1067,7 @@ function closePhone(){$('#phone').hidden=true;S.phone=false;S.phoneT=26+Math.ran
 $('#phGo').onclick=()=>{if(!S||!S.phone)return;closePhone();penalty(20,'Lướt game điện thoại mất 20 giây rồi!');sfx('nope');};
 $('#phNo').onclick=()=>{if(!S||!S.phone)return;closePhone();sfx('click');};
 function canPlace(b,bx){
-  if(bx<FIELD1||bx+b.w>WORLD-20)return false;
+  if(bx<FIELD1||bx+b.w>CRATE_MAXR)return false;   // tủ sách chỉ đẩy tới sát chân ban công cô Kim Ngân, không mang sang dãy lớp cô Nghi
   for(const o of SOLIDS){if(o.y+o.h<=b.y||o.y>=b.y+b.h)continue;if(bx<o.x+o.w&&bx+b.w>o.x)return false;}
   return true;
 }
@@ -1091,6 +1091,7 @@ function update(dt,now){
   if(vx!==0)for(const b of boxes){
     if(!(p.y>b.y+.5&&p.y-36<b.y+b.h))continue;
     if(!(nx+4>b.x&&nx-4<b.x+b.w))continue;
+    if(b.ow&&Math.sign(vx)!==b.ow)continue;
     if(b===S.crate&&p.onGround&&p.knock<=0){const bx=b.x+Math.sign(vx)*PUSH*dt;if(canPlace(b,bx)){b.x=bx;p.pushing=true;}}
     nx=vx>0?b.x-4.01:b.x+b.w+4.01;
   }
